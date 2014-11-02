@@ -12,6 +12,8 @@ The first thing in this repository is set of python scripts in the ```tweet_hydr
 
 For this to work, you'll also need a Twitter application and at least one registered accounts for that application.  To get that, head over to [the Twitter apps page](https://apps.twitter.com/) and register an account.
 
+For the purposes of the Challenge problem, a relevant set of tweet IDs has already been added.  The tweet IDs for #GamerGate that Andy Baio shared and used in [his analysis on Medium.com](https://medium.com/message/72-hours-of-gamergate-e00513f7cf5d) are in the file ```gamergate_tweet_ids.csv```.
+
 License
 =========
 All code in this repository follows the MIT License agreement.
