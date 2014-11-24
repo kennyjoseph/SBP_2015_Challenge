@@ -20,36 +20,38 @@ class TweetDataWorker(multiprocessing.Process):
         print 'Worker started'
         # do some initialization here
 
-        for data in iter( self.queue.get, None ):
+        while True:
+
+            data = self.queue.get(True)
             sleep(10)
-            try:
-                if data == None:
-                    print 'ALL FINISHED!!!!', self.conn_number
-                    self.tweet_id_output_file.close()
-                    self.tweet_output_file.close()
-                    break
+            #try:
+            if data == None:
+                print 'ALL FINISHED!!!!', self.conn_number
+                self.tweet_id_output_file.close()
+                self.tweet_output_file.close()
+                break
 
-                print 'Starting: ', data[1]
-
-
-                tweet_data = self.api_hook.get_from_url("statuses/lookup.json",
-                                                       {"id":",".join(data)})
-
-                data = set([int(d) for d in data])
-                good = 0
-                for tw in tweet_data:
-                    good += 1
-                    self.tweet_output_file.write(json.dumps(tw)+"\n")
-                    data.remove(tw['id'])
+            print 'Starting: ', data[1]
 
 
-                print 'N GOOD: ', good
+            tweet_data = self.api_hook.get_from_url("statuses/lookup.json",
+                                                   {"id":",".join(data)})
 
-            except Exception:
-                print 'FAILED:: ', data
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                print "*** print_tb:"
-                traceback.print_tb(exc_traceback, limit=30, file=sys.stdout)
-                print "*** print_exception:"
+            data = set([int(d) for d in data])
+            good = 0
+            for tw in tweet_data:
+                good += 1
+                self.tweet_output_file.write(json.dumps(tw)+"\n")
+                data.remove(tw['id'])
+
+
+            print 'N GOOD: ', good
+
+            #except Exception:
+            #    print 'FAILED:: ', data
+            #    exc_type, exc_value, exc_traceback = sys.exc_info()
+            #    print "*** print_tb:"
+            #    traceback.print_tb(exc_traceback, limit=30, file=sys.stdout)
+            #    print "*** print_exception:"
             #print 'finished collecting data for: ', data.pop()
 

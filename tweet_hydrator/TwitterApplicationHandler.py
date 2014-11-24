@@ -11,16 +11,13 @@ class TwitterApplicationHandler:
     ###################################################
     ###########SESSION HANDLING METHODS###########
     ###################################################
-    def __init__(self, pathToConfigFile=None,
+    def __init__(self,
                  consumer_key=None,
-                 consumer_secret=None):
+                 consumer_secret=None,
+                 pathToConfigFile=None):
 
         if pathToConfigFile is None and consumer_key is None:
             raise Exception("Need a config file and/or consumer_key")
-
-        self.configFileName = pathToConfigFile
-        self.knownUserDict = {}
-        self.load_known_users()
 
         if consumer_key is not None:
             print 'got key from constructor'
@@ -28,6 +25,20 @@ class TwitterApplicationHandler:
         if consumer_secret is not None:
             print 'got secret from constructor'
             self.consumer_secret = consumer_secret
+
+        self.knownUserDict = {}
+        if pathToConfigFile is not None:
+            self.configFileName = pathToConfigFile
+        else:
+            self.configFileName = str(consumer_key) + ".txt"
+            if not os.path.exists(self.configFileName):
+                outfile = codecs.open(self.configFileName, 'w', 'utf8')
+                outfile.write(','.join([self.consumer_key,self.consumer_secret])+'\n')
+                outfile.close()
+
+        self.load_known_users()
+
+
 
         self.twitter = OAuth1Service(
             name='twitter',
@@ -58,7 +69,7 @@ class TwitterApplicationHandler:
         print session.access_token, session.access_token_secret
 
         # Write token to known user file.
-        outfile = codecs.open(self.pathToKnownUsers, 'a', 'utf8')
+        outfile = codecs.open(self.configFileName, 'a', 'utf8')
         outfile.write(','.join([username, session.access_token, session.access_token_secret])+'\n')
         outfile.close()
 
@@ -68,6 +79,12 @@ class TwitterApplicationHandler:
         access_token, access_token_secret = self.knownUserDict[user]
         session = self.twitter.get_session((access_token, access_token_secret))
         return session
+
+    def init_new_user(self,user):
+        if user in self.knownUserDict:
+            print 'already have user'
+            return
+        self.api_hooks.append(TwitterAPIHook(self.consumer_key, self.consumer_secret, self.init_session(user)))
 
     def init_session(self, user=''):
         if user == '':
@@ -85,6 +102,8 @@ class TwitterApplicationHandler:
 
     def load_known_users(self):
         print 'Loading known users...'
+        if not os.path.exists(self.configFileName):
+            return
         try:
             lines = codecs.open(self.configFileName, 'r', 'utf8').readlines()
 

@@ -8,11 +8,50 @@ We welcome any additions to this repository at any time, fork and submit a pull 
 Tweet Hydrator
 ==============
 
-The first thing in this repository is set of python scripts in the ```tweet_hydrator``` directory.  In here, you will find a script ```tweet_getter.py``` that is able to take in  a set of tweet ids and produce JSON files that hold the full information for all of the tweets in that list which are still publically available.
+The first thing in this repository is a set of python scripts in the ```tweet_hydrator``` directory.  
+In here, you will find a script ```tweet_getter.py``` that is able to take in a set of tweet ids and produce JSON files 
+that hold the full information for all tweets in the list of IDs that are still publicly available.
 
-For this to work, you'll also need a Twitter application and at least one registered accounts for that application.  To get that, head over to [the Twitter apps page](https://apps.twitter.com/) and register an account.
+For the purposes of the Challenge problem, a relevant set of tweet IDs has already been added.  
+The tweet IDs for #GamerGate that Andy Baio shared and used in 
+[his analysis on Medium.com](https://medium.com/message/72-hours-of-gamergate-e00513f7cf5d) are in the file ```gamergate_tweet_ids.csv```.
 
-For the purposes of the Challenge problem, a relevant set of tweet IDs has already been added.  The tweet IDs for #GamerGate that Andy Baio shared and used in [his analysis on Medium.com](https://medium.com/message/72-hours-of-gamergate-e00513f7cf5d) are in the file ```gamergate_tweet_ids.csv```.
+To pull down these tweets, you can run the script in the following manner:
+
+```
+> python tweet_getter.py [output_dir] [tweet_id_file]
+```
+
+The script thus takes two arguments. The first argument is the output directory for the JSON for the hydrated tweets. 
+The second is a file that has one tweet id per line. In this case it would be ```gamergate_tweet_ids.csv```.
+
+To make the code run, you'll actually have to change two lines of code within the script.  The first is:
+```
+app_info = ['APP_KEY_1','APP_SECRET_1']
+```
+
+You'll have to replace ```APP_KEY_1``` with a Twitter application key and ```APP_SECRET_1``` with a Twitter application secret
+ (note: it's called a secret for a reason, so make sure not to share it!). To create an application, head over to 
+ [the Twitter apps page](https://apps.twitter.com/) and register one.  Once you do, go to the "Keys and Access Tokens"
+ tab of the Application Management screen, and replace ```APP_KEY_1``` with your "Consumer Key (API Key)" and
+ ```APP_SECRET_1``` with your "0vFEhZsbliFza4XMjICZEncLgmS9fawewCnXkSNFz2Op1eBUZv"
+ 
+You'll also have to change the following line:
+
+```
+users = ['kjoseph5']
+```
+
+Replace the (my) Twitter handle there with your own, and your friends if you can steal their password (kidding!).
+
+Now, you can run the script. The first time you do,  the script will request that you visit a URL in your browser 
+to allow it authorize the usernames you provided to your application. Get the PIN from the URL (after you log in
+with that user) and enter it on the command line where you ran the script.  The script generates a config
+file from this information (in the same directory where the script was run, with the app key as the name) 
+so you don't have to do it every time you start it up, but you are always welcome 
+to delete this file so you don't have that information hanging around.
+
+Your output will be a series of .json files in your output directory. Happy analyzing!
 
 License
 =========
