@@ -34,7 +34,7 @@ You'll have to replace ```APP_KEY_1``` with a Twitter application key and ```APP
  (note: it's called a secret for a reason, so make sure not to share it!). To create an application, head over to 
  [the Twitter apps page](https://apps.twitter.com/) and register one.  Once you do, go to the "Keys and Access Tokens"
  tab of the Application Management screen, and replace ```APP_KEY_1``` with your "Consumer Key (API Key)" and
- ```APP_SECRET_1``` with your "0vFEhZsbliFza4XMjICZEncLgmS9fawewCnXkSNFz2Op1eBUZv"
+ ```APP_SECRET_1``` with your "Consumer Secret"
  
 You'll also have to change the following line:
 
