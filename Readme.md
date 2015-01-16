@@ -12,9 +12,10 @@ The first thing in this repository is a set of python scripts in the ```tweet_hy
 In here, you will find a script ```tweet_getter.py``` that is able to take in a set of tweet ids and produce JSON files 
 that hold the full information for all tweets in the list of IDs that are still publicly available.
 
-For the purposes of the Challenge problem, a relevant set of tweet IDs has already been added.  
-The tweet IDs for #GamerGate that Andy Baio shared and used in 
-[his analysis on Medium.com](https://medium.com/message/72-hours-of-gamergate-e00513f7cf5d) are in the file ```gamergate_tweet_ids.csv```.
+For the purposes of the Challenge problem, two relevant sets of tweet IDs has already been added.  
+1. The tweet IDs for #GamerGate that Andy Baio shared and used in 
+[his analysis on Medium.com](https://medium.com/message/72-hours-of-gamergate-e00513f7cf5d) are in the file ```data/gamergate_tweet_ids.csv```.
+2. Tweet IDs for tweets relevant to the 2014 protest activity in Ferguson, Missouri. The file contains 1.1M tweets ids from 7-14 days after the first protests. These ids are in the (gzipped) file ```data/ferguson_tweet_ids.txt.gz```.
 
 To pull down these tweets, you can run the script in the following manner:
 
